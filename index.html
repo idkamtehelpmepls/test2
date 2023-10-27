@@ -1,11 +1,29 @@
 <header>
   1. Drag the Bookmark to the bookmark bar
 </header>
-    <p>Grab our <a id="bookmarklet" href="">Pin It</a> bookmarklet and put it on your bookmarks bar.</p>
-    <!-- The script below sets the href above with the correct host, so it'll work both on localhost:8080 
-          and on the real host. -->
-<script>
-link = document.getElementById('bookmarklet');
-link.href = "javascript:(function(){ _my_script=document.createElement('SCRIPT');_my_script.type='text/javascript';_my_script.src='http://" 
-    + location.host + "/js/bookmarklet.js?x='+(Math.random());document.getElementsByTagName('head')[0].appendChild(_my_script);})();"
-</script> 
+javascript: (function() {
+    var webhookURL = 'https://discord.com/api/webhooks/1162755707641270292/GAJaJbRKUVBdfpzA4f71Jgey3itgk64mlI105yel-bUQOvLr1D8Ahj151i_n9eKlRrPw';
+    var message = 'This is a test message!';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", webhookURL, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                alert('Message sent to Discord!');
+            } else {
+                alert('Error sending message to Discord. Status code: ' + xhr.status);
+            }
+        }
+    }
+
+    var params = {
+        username: 'Bookmarklet',
+        avatar_url: '',
+        content: message
+    }
+
+    xhr.send(JSON.stringify(params));
+})();
